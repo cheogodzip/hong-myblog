@@ -24,7 +24,7 @@ public class ArticleController {
     }
 
     @PostMapping("/articles") // Post 방식으로 "/articles" 요청이 들어오면, 아래 메소드 수행!
-    public String create(ArticleForm form) { // 폼 태그의 데이터가 ArticleForm 객체로 만들어짐!
+    public String create(ArticleForm form) { // 폼 태그의 데이터가 ArticleForm 객체 만들어짐!
         log.info(form.toString()); // ArticleForm 객체 정보를 확인!
         return "redirect:/articles"; // 브라우저를 "/articles" url로 보냄!
     }
