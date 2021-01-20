@@ -1,32 +1,37 @@
 package com.example.myblog.controller;
 
+
 import com.example.myblog.dto.ArticleForm;
-import lombok.extern.slf4j.Slf4j;
+import com.example.myblog.entity.Article;
+import com.example.myblog.repository.ArticleRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 
-@Slf4j
-@Controller // 컨트롤러 선언. 요청과 응답을 처리
+@Controller // 컨트롤러 선언
 public class ArticleController {
 
-    @GetMapping("/articles") // 괄호 안 문자열 요청을 처리하다록 메소드 선언
-    public String index(Model model){
-        //key: msg, value: 안녕하세요, 반갑습니다
-        model.addAttribute("msg", "안녕하세요, 반갑습니다!");
-        return "articles/index"; // 뷰페이지 설정, 리턴할
-    }
+    @Autowired //스프링부트가 미리 만든 객체를 가져와 연결한다. 그래서 new 로 생상하지 않아도 된다.
+    private ArticleRepository articleRepository;
 
-    @GetMapping("/articles/new") // GET 요청이 해당 url로 오면, 아래 메소드를 수행!
-    public String newArticle() {
-        return "articles/new"; // 보여줄 뷰 페이지
+    @GetMapping("/articles/new")
+    public String newArticleForm(){
+        return "articles/new";
     }
+    
+    @PostMapping("/articles/create")//폼에서 action으로 주는 주소
+    public String createAticles(ArticleForm form){
+        System.out.println(form.toString());
 
-    @PostMapping("/articles") // Post 방식으로 "/articles" 요청이 들어오면, 아래 메소드 수행!
-    public String create(ArticleForm form) { // 폼 태그의 데이터가 ArticleForm 객체 만들어짐!
-        log.info(form.toString()); // ArticleForm 객체 정보를 확인!
-        return "redirect:/articles"; // 브라우저를 "/articles" url로 보냄!
+        //DTO form을 Entity article로 바꾼다
+        Article article = form.toEntity();
+        System.out.println(article.toString());
+
+        //Repository에게 Entity를 디비에 저장하게 한다다
+        Article saved = articleRepository.save(article);
+        System.out.println(saved.toString());
+
+        return "";
     }
-
 }
