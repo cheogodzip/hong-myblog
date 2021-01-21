@@ -1,10 +1,22 @@
 {{>layouts/header}}
-<!-- jumbotron -->
-<div class="jumbotron">
-    <h1>Article 목록</h1>
-    <hr>
-    <p>articles/index.mustache</p>
-    <p>{{msg}}</p> <!-- 모델 데이터를 가져 옴 -->
-    <button type="button" onclick="location.href='/articles/new' ">글 작성</button>
-</div>
+
+<table class="table">
+    <thead>
+    <tr>
+        <th scope="col">ID</th>
+        <th scope="col">Title</th>
+        <th scope="col">Content</th>
+    </tr>
+    </thead>
+    <tbody>
+    {{#articleList}}
+        <tr>
+            <th>{{id}}</th>
+            <td>{{title}}</td>
+            <td>{{content}}</td>
+        </tr>
+    {{/articleList}}
+    </tbody>
+</table>
+
 {{>layouts/footer}}
